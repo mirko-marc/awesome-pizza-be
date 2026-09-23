@@ -1,0 +1,37 @@
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/awesome_pizza}
+    username: ${DB_USERNAME:pizza}
+    password: ${DB_PASSWORD:pizza}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        default_schema: ${DATABASE_SCHEMA:awesome_pizza}
+    open-in-view: false
+
+awesome-pizza:
+  time-zone: ${BUSINESS_TIME_ZONE:Europe/Rome}
+  security:
+    jwt:
+      secret-base64: ${JWT_SECRET_BASE64:}
+      issuer: ${JWT_ISSUER:awesome-pizza}
+      access-token-ttl: ${JWT_ACCESS_TOKEN_TTL:PT1H}
+    cors:
+      allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:4200}
+    bootstrap-admin:
+      username: ${ADMIN_USERNAME:}
+      password: ${ADMIN_PASSWORD:}
+
+logging:
+  file:
+    name: ${LOG_FILE:logs/awesome-pizza.log}
+  pattern:
+    console: "%d{HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %-5level [%thread] %logger{50} - %msg%n"
+  logback:
+    rollingpolicy:
+      max-file-size: ${LOG_MAX_FILE_SIZE:10MB}
+      max-history: ${LOG_MAX_HISTORY:30}
+      total-size-cap: ${LOG_TOTAL_SIZE_CAP:1GB}

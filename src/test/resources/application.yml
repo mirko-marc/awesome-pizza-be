@@ -1,0 +1,6 @@
+awesome-pizza:
+  security:
+    jwt:
+      secret-base64: MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDE=
+      issuer: awesome-pizza-test
+      access-token-ttl: PT5M

@@ -1,0 +1,233 @@
+2026-09-23T10:34:30.028+02:00 INFO  [main] com.awesomepizza.AwesomePizzaApplication - Starting AwesomePizzaApplication using Java 25.0.4.1 with PID 30900 (C:\awesome-pizza\target\classes started by mirko.marconi in C:\awesome-pizza)
+2026-09-23T10:34:30.030+02:00 INFO  [main] com.awesomepizza.AwesomePizzaApplication - No active profile set, falling back to 1 default profile: "default"
+2026-09-23T10:34:32.383+02:00 INFO  [main] o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-23T10:34:32.883+02:00 INFO  [main] o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 476 ms. Found 4 JPA repository interfaces.
+2026-09-23T10:34:34.333+02:00 INFO  [main] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-09-23T10:34:34.358+02:00 INFO  [main] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-09-23T10:34:34.359+02:00 INFO  [main] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-09-23T10:34:34.468+02:00 INFO  [main] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-09-23T10:34:34.469+02:00 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 4375 ms
+2026-09-23T10:34:34.889+02:00 INFO  [main] org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-23T10:34:34.967+02:00 INFO  [main] org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.53.Final
+2026-09-23T10:34:35.005+02:00 INFO  [main] o.hibernate.cache.internal.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-23T10:34:35.294+02:00 INFO  [main] o.s.o.j.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-23T10:34:35.320+02:00 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-09-23T10:34:35.453+02:00 INFO  [main] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7037a680
+2026-09-23T10:34:35.454+02:00 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-09-23T10:34:35.550+02:00 INFO  [main] org.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 17.11
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-23T10:34:36.570+02:00 INFO  [main] o.h.e.t.jta.platform.internal.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-23T10:34:36.654+02:00 INFO  [main] o.s.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-23T10:34:37.065+02:00 INFO  [main] o.s.data.jpa.repository.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-09-23T10:34:38.371+02:00 INFO  [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name appUserDetailsService
+2026-09-23T10:34:39.507+02:00 INFO  [main] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-09-23T10:34:39.522+02:00 INFO  [main] o.s.scheduling.config.TaskSchedulerRouter - No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2026-09-23T10:34:39.533+02:00 INFO  [main] com.awesomepizza.AwesomePizzaApplication - Started AwesomePizzaApplication in 10.151 seconds (process running for 11.889)
+2026-09-23T10:34:39.708+02:00 INFO  [main] c.a.authentication.config.AdminBootstrapConfig - Bootstrap pizza maker account 'pizzaiolo' already exists
+2026-09-23T10:34:39.713+02:00 WARN  [main] org.springdoc.core.events.SpringDocAppInitializer - SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-09-23T10:34:39.714+02:00 WARN  [main] org.springdoc.core.events.SpringDocAppInitializer - SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-09-23T10:36:14.496+02:00 INFO  [http-nio-8080-exec-1] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-09-23T10:36:14.496+02:00 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-09-23T10:36:14.499+02:00 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2026-09-23T10:36:16.286+02:00 INFO  [http-nio-8080-exec-3] org.springdoc.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 1444 ms
+2026-09-23T10:44:07.486+02:00 INFO  [http-nio-8080-exec-1] c.awesomepizza.ordering.service.OrderServiceImpl - Order 3e287577-f45c-4e8f-82d9-a7bba1a11500 entered preparation
+2026-09-23T10:46:12.928+02:00 INFO  [http-nio-8080-exec-5] c.awesomepizza.ordering.service.OrderServiceImpl - Order 3e287577-f45c-4e8f-82d9-a7bba1a11500 was completed
+2026-09-23T10:55:57.053+02:00 INFO  [main] com.awesomepizza.AwesomePizzaApplication - Starting AwesomePizzaApplication using Java 25.0.4.1 with PID 18020 (C:\awesome-pizza\target\classes started by mirko.marconi in C:\awesome-pizza)
+2026-09-23T10:55:57.055+02:00 INFO  [main] com.awesomepizza.AwesomePizzaApplication - No active profile set, falling back to 1 default profile: "default"
+2026-09-23T10:55:57.875+02:00 WARN  [main] o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [com.awesomepizza.AwesomePizzaApplication]
+2026-09-23T10:55:57.928+02:00 ERROR [main] org.springframework.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [com.awesomepizza.AwesomePizzaApplication]
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:194)
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:418)
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:290)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:349)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:118)
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:792)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:610)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350)
+	at com.awesomepizza.AwesomePizzaApplication.main(AwesomePizzaApplication.java:9)
+Caused by: org.springframework.context.annotation.ConflictingBeanDefinitionException: Annotation-specified bean name 'orderItemMapperImpl' for bean class [com.awesomepizza.shared.mapper.OrderItemMapperImpl] conflicts with existing, non-compatible bean definition of same name and class [com.awesomepizza.customer.mapper.OrderItemMapperImpl]
+	at org.springframework.context.annotation.ClassPathBeanDefinitionScanner.checkCandidate(ClassPathBeanDefinitionScanner.java:361)
+	at org.springframework.context.annotation.ClassPathBeanDefinitionScanner.doScan(ClassPathBeanDefinitionScanner.java:288)
+	at org.springframework.context.annotation.ComponentScanAnnotationParser.parse(ComponentScanAnnotationParser.java:128)
+	at org.springframework.context.annotation.ConfigurationClassParser.doProcessConfigurationClass(ConfigurationClassParser.java:348)
+	at org.springframework.context.annotation.ConfigurationClassParser.processConfigurationClass(ConfigurationClassParser.java:283)
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:204)
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:172)
+	... 13 common frames omitted
+2026-09-23T10:57:36.560+02:00 INFO  [main] com.awesomepizza.AwesomePizzaApplication - Starting AwesomePizzaApplication using Java 25.0.4.1 with PID 15760 (C:\awesome-pizza\target\classes started by mirko.marconi in C:\awesome-pizza)
+2026-09-23T10:57:36.566+02:00 INFO  [main] com.awesomepizza.AwesomePizzaApplication - No active profile set, falling back to 1 default profile: "default"
+2026-09-23T10:57:37.958+02:00 WARN  [main] o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [com.awesomepizza.AwesomePizzaApplication]
+2026-09-23T10:57:38.023+02:00 ERROR [main] org.springframework.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [com.awesomepizza.AwesomePizzaApplication]
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:194)
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:418)
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:290)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:349)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:118)
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:792)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:610)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350)
+	at com.awesomepizza.AwesomePizzaApplication.main(AwesomePizzaApplication.java:9)
+Caused by: org.springframework.context.annotation.ConflictingBeanDefinitionException: Annotation-specified bean name 'orderItemMapperImpl' for bean class [com.awesomepizza.shared.mapper.OrderItemMapperImpl] conflicts with existing, non-compatible bean definition of same name and class [com.awesomepizza.customer.mapper.OrderItemMapperImpl]
+	at org.springframework.context.annotation.ClassPathBeanDefinitionScanner.checkCandidate(ClassPathBeanDefinitionScanner.java:361)
+	at org.springframework.context.annotation.ClassPathBeanDefinitionScanner.doScan(ClassPathBeanDefinitionScanner.java:288)
+	at org.springframework.context.annotation.ComponentScanAnnotationParser.parse(ComponentScanAnnotationParser.java:128)
+	at org.springframework.context.annotation.ConfigurationClassParser.doProcessConfigurationClass(ConfigurationClassParser.java:348)
+	at org.springframework.context.annotation.ConfigurationClassParser.processConfigurationClass(ConfigurationClassParser.java:283)
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:204)
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:172)
+	... 13 common frames omitted
+2026-09-23T10:59:30.251+02:00 INFO  [main] com.awesomepizza.AwesomePizzaApplication - Starting AwesomePizzaApplication using Java 25.0.4.1 with PID 37896 (C:\awesome-pizza\target\classes started by mirko.marconi in C:\awesome-pizza)
+2026-09-23T10:59:30.252+02:00 INFO  [main] com.awesomepizza.AwesomePizzaApplication - No active profile set, falling back to 1 default profile: "default"
+2026-09-23T10:59:31.987+02:00 INFO  [main] o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-23T10:59:32.332+02:00 INFO  [main] o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 331 ms. Found 4 JPA repository interfaces.
+2026-09-23T10:59:34.395+02:00 INFO  [main] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-09-23T10:59:34.433+02:00 INFO  [main] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-09-23T10:59:34.434+02:00 INFO  [main] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-09-23T10:59:34.510+02:00 INFO  [main] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-09-23T10:59:34.511+02:00 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 4183 ms
+2026-09-23T10:59:34.778+02:00 INFO  [main] org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-23T10:59:34.877+02:00 INFO  [main] org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.53.Final
+2026-09-23T10:59:34.931+02:00 INFO  [main] o.hibernate.cache.internal.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-23T10:59:35.334+02:00 INFO  [main] o.s.o.j.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-23T10:59:35.380+02:00 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-09-23T10:59:35.649+02:00 INFO  [main] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@517bdce0
+2026-09-23T10:59:35.651+02:00 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-09-23T10:59:35.801+02:00 INFO  [main] org.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 17.11
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-23T10:59:37.101+02:00 INFO  [main] o.h.e.t.jta.platform.internal.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-23T10:59:37.232+02:00 INFO  [main] o.s.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-23T10:59:37.624+02:00 INFO  [main] o.s.data.jpa.repository.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-09-23T10:59:38.579+02:00 INFO  [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name appUserDetailsService
+2026-09-23T10:59:39.339+02:00 INFO  [main] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-09-23T10:59:39.348+02:00 INFO  [main] o.s.scheduling.config.TaskSchedulerRouter - No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2026-09-23T10:59:39.352+02:00 INFO  [main] com.awesomepizza.AwesomePizzaApplication - Started AwesomePizzaApplication in 9.901 seconds (process running for 11.236)
+2026-09-23T10:59:39.517+02:00 INFO  [main] c.a.authentication.config.AdminBootstrapConfig - Bootstrap pizza maker account 'pizzaiolo' already exists
+2026-09-23T10:59:39.517+02:00 WARN  [main] org.springdoc.core.events.SpringDocAppInitializer - SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-09-23T10:59:39.517+02:00 WARN  [main] org.springdoc.core.events.SpringDocAppInitializer - SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-09-23T11:01:58.350+02:00 INFO  [http-nio-8080-exec-1] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-09-23T11:01:58.363+02:00 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-09-23T11:01:58.433+02:00 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 70 ms
+2026-09-23T11:04:40.304+02:00 WARN  [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@25dc2985 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+2026-09-23T11:05:00.032+02:00 WARN  [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@5ffb67f8 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+2026-09-23T11:05:03.528+02:00 WARN  [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@33475958 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+2026-09-23T11:05:04.082+02:00 WARN  [http-nio-8080-exec-4] com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@517bdce0 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+2026-09-23T11:05:04.084+02:00 WARN  [http-nio-8080-exec-4] com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@70e1ed83 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+2026-09-23T11:05:04.087+02:00 WARN  [http-nio-8080-exec-4] com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@7e261def (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+2026-09-23T11:05:04.091+02:00 WARN  [http-nio-8080-exec-4] com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@7a1986f3 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+2026-09-23T11:05:04.093+02:00 WARN  [http-nio-8080-exec-4] com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@3f1b17d4 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+2026-09-23T11:05:04.096+02:00 WARN  [http-nio-8080-exec-4] com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@40e97841 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+2026-09-23T11:05:04.098+02:00 WARN  [http-nio-8080-exec-4] com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@eeeccd6 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+2026-09-23T11:10:54.616+02:00 INFO  [main] com.awesomepizza.AwesomePizzaApplication - Starting AwesomePizzaApplication using Java 25.0.4.1 with PID 36648 (C:\awesome-pizza\target\classes started by mirko.marconi in C:\awesome-pizza)
+2026-09-23T11:10:54.621+02:00 INFO  [main] com.awesomepizza.AwesomePizzaApplication - No active profile set, falling back to 1 default profile: "default"
+2026-09-23T11:10:57.549+02:00 INFO  [main] o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-23T11:10:57.831+02:00 INFO  [main] o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 262 ms. Found 4 JPA repository interfaces.
+2026-09-23T11:10:59.256+02:00 INFO  [main] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-09-23T11:10:59.301+02:00 INFO  [main] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-09-23T11:10:59.302+02:00 INFO  [main] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-09-23T11:10:59.431+02:00 INFO  [main] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-09-23T11:10:59.432+02:00 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 4649 ms
+2026-09-23T11:10:59.816+02:00 INFO  [main] org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-23T11:10:59.980+02:00 INFO  [main] org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.53.Final
+2026-09-23T11:11:00.101+02:00 INFO  [main] o.hibernate.cache.internal.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-23T11:11:00.739+02:00 INFO  [main] o.s.o.j.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-23T11:11:00.797+02:00 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-09-23T11:11:01.048+02:00 INFO  [main] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@29bd056a
+2026-09-23T11:11:01.050+02:00 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-09-23T11:11:01.195+02:00 INFO  [main] org.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 17.11
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-23T11:11:03.120+02:00 INFO  [main] o.h.e.t.jta.platform.internal.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-23T11:11:03.276+02:00 INFO  [main] o.s.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-23T11:11:03.863+02:00 INFO  [main] o.s.data.jpa.repository.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-09-23T11:11:05.129+02:00 INFO  [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name appUserDetailsService
+2026-09-23T11:11:06.450+02:00 INFO  [main] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-09-23T11:11:06.469+02:00 INFO  [main] o.s.scheduling.config.TaskSchedulerRouter - No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2026-09-23T11:11:06.478+02:00 INFO  [main] com.awesomepizza.AwesomePizzaApplication - Started AwesomePizzaApplication in 13.535 seconds (process running for 15.341)
+2026-09-23T11:11:06.906+02:00 INFO  [main] c.a.authentication.config.AdminBootstrapConfig - Bootstrap pizza maker account created for username 'pizzaiolo'
+2026-09-23T11:11:06.907+02:00 WARN  [main] org.springdoc.core.events.SpringDocAppInitializer - SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-09-23T11:11:06.907+02:00 WARN  [main] org.springdoc.core.events.SpringDocAppInitializer - SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-09-23T11:11:59.908+02:00 INFO  [http-nio-8080-exec-1] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-09-23T11:11:59.910+02:00 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-09-23T11:11:59.914+02:00 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2026-09-23T11:13:51.432+02:00 INFO  [http-nio-8080-exec-5] c.a.administration.service.AdminOrderService - Order 8cc18e65-dd36-46ab-8503-b3dcd626be99 entered preparation
+2026-09-23T11:14:05.797+02:00 INFO  [http-nio-8080-exec-9] c.a.administration.service.AdminOrderService - Order 8cc18e65-dd36-46ab-8503-b3dcd626be99 was completed
+2026-09-23T11:18:11.605+02:00 INFO  [http-nio-8080-exec-5] c.a.administration.service.AdminOrderService - Order 3ee5ea3b-8678-4f9b-9981-872030bff5b3 entered preparation
+2026-09-23T11:29:13.907+02:00 INFO  [http-nio-8080-exec-7] c.a.administration.service.AdminOrderService - Order 3ee5ea3b-8678-4f9b-9981-872030bff5b3 was completed
+2026-09-23T11:49:26.784+02:00 INFO  [main] com.awesomepizza.AwesomePizzaApplication - Starting AwesomePizzaApplication using Java 25.0.4.1 with PID 12968 (C:\awesome-pizza\target\classes started by mirko.marconi in C:\awesome-pizza)
+2026-09-23T11:49:26.789+02:00 INFO  [main] com.awesomepizza.AwesomePizzaApplication - No active profile set, falling back to 1 default profile: "default"
+2026-09-23T11:49:30.085+02:00 INFO  [main] o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-23T11:49:30.405+02:00 INFO  [main] o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 294 ms. Found 4 JPA repository interfaces.
+2026-09-23T11:49:32.106+02:00 INFO  [main] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-09-23T11:49:32.180+02:00 INFO  [main] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-09-23T11:49:32.181+02:00 INFO  [main] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-09-23T11:49:32.329+02:00 INFO  [main] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-09-23T11:49:32.331+02:00 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 5401 ms
+2026-09-23T11:49:32.990+02:00 INFO  [main] org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-23T11:49:33.202+02:00 INFO  [main] org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.53.Final
+2026-09-23T11:49:33.300+02:00 INFO  [main] o.hibernate.cache.internal.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-23T11:49:34.019+02:00 INFO  [main] o.s.o.j.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-23T11:49:34.091+02:00 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-09-23T11:49:34.546+02:00 INFO  [main] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@69b1e8f8
+2026-09-23T11:49:34.550+02:00 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-09-23T11:49:34.835+02:00 INFO  [main] org.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 17.11
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-23T11:49:36.960+02:00 INFO  [main] o.h.e.t.jta.platform.internal.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-23T11:49:37.084+02:00 INFO  [main] o.s.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-23T11:49:37.467+02:00 INFO  [main] o.s.data.jpa.repository.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-09-23T11:49:38.784+02:00 INFO  [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name appUserDetailsService
+2026-09-23T11:49:40.404+02:00 WARN  [main] o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2026-09-23T11:49:40.408+02:00 INFO  [main] o.s.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-23T11:49:40.412+02:00 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-09-23T11:49:40.417+02:00 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-09-23T11:49:40.436+02:00 INFO  [main] o.s.b.a.logging.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-09-23T11:49:40.461+02:00 ERROR [main] o.s.b.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
