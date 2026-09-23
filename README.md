@@ -4,34 +4,91 @@ REST API implemented as a Spring Modulith modular monolith for browsing the pizz
 
 ## Requirements
 
-- Java 21 or later
-- Maven 3.6.3 or later
-- Docker with Compose, or an existing PostgreSQL instance
-- The sibling `awesome-pizza-liquibase` database project
+- Docker Desktop with Docker Compose
+- The backend, frontend, and Liquibase repositories cloned as sibling directories
 
-## Start
+Java 21 and Maven are required only when running or testing the backend outside Docker.
+
+The expected directory layout is:
+
+```text
+C:\
+|-- awesome-pizza
+|-- awesome-pizza-fe
+`-- awesome-pizza-liquibase
+```
+
+The paths are relative to this repository, so the three directory names and their sibling relationship must be preserved.
+
+## Run the complete system with Docker
+
+Open PowerShell in the backend repository:
 
 ```powershell
-Copy-Item .env.example .env
+cd C:\awesome-pizza
 docker compose up --build -d
 ```
 
-The command starts PostgreSQL, applies the Liquibase migrations, starts the Spring Boot backend,
-and serves the Angular frontend through Nginx.
+Docker Compose starts the components in dependency order:
+
+```text
+PostgreSQL -> Liquibase -> Spring Boot backend -> Angular frontend
+```
+
+Liquibase is a one-shot container. Its expected final state is `Exited (0)`, which means that the database migrations completed successfully. PostgreSQL, backend, and frontend must report `healthy`.
+
+Check the complete stack with:
+
+```powershell
+docker compose ps --all
+```
+
+The application is available at:
 
 - Frontend: `http://localhost:4200`
 - Backend API: `http://localhost:8080/api/v1`
 - Swagger UI: `http://localhost:8080/swagger-ui/index.html`
 
-The Compose application starts PostgreSQL, runs Liquibase to completion, and only then starts the Spring backend. The backend bootstrap creates the configured pizza maker in `app_user` when the username does not already exist. With the development values from `.env.example`, login uses `pizzaiolo` / `PasswordSicura123!`.
+The frontend Nginx server forwards requests under `/api` to the backend container, so the browser accesses the UI and API through the same frontend origin.
 
-Check startup and bootstrap logs with:
+### Development administrator
 
-```powershell
-docker compose logs -f backend
+The backend bootstrap creates the configured pizza maker in `app_user` when the username does not already exist. The default development credentials are:
+
+```text
+Username: pizzaiolo
+Password: PasswordSicura123!
 ```
 
-The first successful bootstrap prints `Bootstrap pizza maker account created for username 'pizzaiolo'`. Later restarts keep the existing BCrypt password and print that the account already exists.
+Override these values before the first startup by copying the example environment file and editing `.env`:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+### Stop and restart
+
+Stop the system while preserving PostgreSQL data:
+
+```powershell
+docker compose down
+```
+
+Start it again without rebuilding unchanged images:
+
+```powershell
+docker compose up -d
+```
+
+Remove containers and all persisted database data:
+
+```powershell
+docker compose down --volumes
+```
+
+The last command is destructive and should only be used when a clean database is explicitly required.
+
+## Configuration
 
 The local database defaults are `pizza` / `pizza`. Use `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`, and `DATABASE_SCHEMA` to override the database configuration. The separate Liquibase project creates and updates the schema; Hibernate validates it at application startup.
 
@@ -48,7 +105,7 @@ CORS_ALLOWED_ORIGINS=http://localhost:4200
 
 `ADMIN_USERNAME` and `ADMIN_PASSWORD` are optional for non-Docker execution, but they must be provided together. When configured, the application creates the pizza maker account only if it does not already exist and stores only its BCrypt hash.
 
-The Docker Compose development configuration supplies default credentials. Override them in `.env` before the first startup. Changing `ADMIN_PASSWORD` later does not replace the password of an existing database user.
+The Docker Compose development configuration supplies default credentials and ports. See `.env.example` for every supported override, including `APP_PORT` and `FRONTEND_PORT`.
 
 ## Architecture
 
@@ -74,7 +131,6 @@ mvn test
 
 | Method | Path | Result |
 | --- | --- | --- |
-| `GET` | `/api/v1` | API information |
 | `GET` | `/api/v1/pizzas` | Available pizza menu |
 | `POST` | `/api/v1/orders` | Creates an order and returns `201 Created` with a `Location` header |
 | `GET` | `/api/v1/orders/{orderCode}` | Returns the current order state or `404 Not Found` |
@@ -85,23 +141,5 @@ mvn test
 | `PATCH` | `/api/v1/admin/orders/{orderCode}/start` | Starts preparation if no other order is active |
 | `PATCH` | `/api/v1/admin/orders/{orderCode}/complete` | Completes an order currently in preparation |
 
-The administrative search accepts `id`, `orderCode`, `day`, and `status` as optional query parameters, plus the standard `page` and `size` pagination parameters. Every supplied filter is combined with `AND`. Results use a stable `createdAt DESC, id DESC` order and page sizes are capped at 100.
 
-The start transition uses a pessimistic database lock inside the transaction. This serializes concurrent start requests before checking for an existing `IN_PREPARATION` order, enforcing the global rule that only one order can be prepared at a time. An invalid transition or an already active order returns `409 Conflict` through the common API error payload.
-
-Example order creation request:
-
-```powershell
-$body = @{ items = @(
-    @{ pizzaId = 1; quantity = 2 },
-    @{ pizzaId = 2; quantity = 1 }
-) } | ConvertTo-Json -Depth 3
-
-Invoke-RestMethod `
-    -Method Post `
-    -Uri http://localhost:8080/api/v1/orders `
-    -ContentType 'application/json' `
-    -Body $body
-```
-
-Order states are `RECEIVED`, `IN_PREPARATION`, and `COMPLETED`. The public order code is an unpredictable UUID. API documentation is available at `/swagger-ui.html`, with the OpenAPI document at `/v3/api-docs`.
+Order states are `RECEIVED`, `IN_PREPARATION`, and `COMPLETED`. The public order code is an unpredictable UUID. API documentation is available at `/swagger-ui/index.html`, with the OpenAPI document at `/v3/api-docs`.
