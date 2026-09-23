@@ -1,5 +1,5 @@
 include:
-  - ../awesome-pizza-liquibase/compose.yaml
+  - ../awesome-pizza-db/compose.yaml
 
 services:
   backend:
