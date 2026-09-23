@@ -4,14 +4,20 @@ import com.awesomepizza.administration.dto.AdminOrderDetailDTO;
 import com.awesomepizza.administration.dto.AdminOrderSearchFilterDTO;
 import com.awesomepizza.administration.dto.AdminOrderSummaryDTO;
 import com.awesomepizza.administration.dto.PageResponseDTO;
+import com.awesomepizza.administration.mapper.AdminOrderMapper;
+import com.awesomepizza.administration.model.OrderSearchCriteria;
 import com.awesomepizza.administration.service.AdminOrderService;
 import com.awesomepizza.shared.enumeration.OrderStatus;
 import com.awesomepizza.administration.exception.ActiveOrderInPreparationException;
+import com.awesomepizza.shared.model.OrderDetailModel;
+import com.awesomepizza.shared.model.OrderSummaryModel;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -36,24 +42,32 @@ class AdminOrderControllerTest {
 
     @MockitoBean
     private AdminOrderService adminOrderService;
+    @MockitoBean
+    private AdminOrderMapper adminOrderMapper;
 
     @Test
     void bindsSearchFiltersAndPagination() throws Exception {
         UUID orderCode = UUID.randomUUID();
-        PageResponseDTO<AdminOrderSummaryDTO> response = PageResponseDTO.<AdminOrderSummaryDTO>builder()
-                .content(List.of(AdminOrderSummaryDTO.builder()
-                        .id(42L)
-                        .orderCode(orderCode)
-                        .status(OrderStatus.RECEIVED)
-                        .build()))
-                .page(2)
-                .size(10)
-                .totalElements(1)
-                .totalPages(1)
-                .first(false)
-                .last(true)
+        OrderSearchCriteria criteria = OrderSearchCriteria.builder()
+                .id(42L)
+                .orderCode(orderCode)
+                .day(LocalDate.of(2026, 9, 23))
+                .status(OrderStatus.RECEIVED)
                 .build();
-        when(adminOrderService.searchOrders(any(), any())).thenReturn(response);
+        OrderSummaryModel model = OrderSummaryModel.builder()
+                .id(42L)
+                .orderCode(orderCode)
+                .status(OrderStatus.RECEIVED)
+                .build();
+        AdminOrderSummaryDTO dto = AdminOrderSummaryDTO.builder()
+                .id(42L)
+                .orderCode(orderCode)
+                .status(OrderStatus.RECEIVED)
+                .build();
+        when(adminOrderMapper.toCriteria(any())).thenReturn(criteria);
+        when(adminOrderService.searchOrders(any(), any())).thenReturn(
+                new PageImpl<>(List.of(model), PageRequest.of(2, 10), 21));
+        when(adminOrderMapper.toDto(model)).thenReturn(dto);
 
         mockMvc.perform(get("/api/v1/admin/orders")
                         .param("id", "42")
@@ -67,13 +81,13 @@ class AdminOrderControllerTest {
                 .andExpect(jsonPath("$.page").value(2))
                 .andExpect(jsonPath("$.size").value(10));
 
-        var filterCaptor = org.mockito.ArgumentCaptor.forClass(AdminOrderSearchFilterDTO.class);
+        var criteriaCaptor = org.mockito.ArgumentCaptor.forClass(OrderSearchCriteria.class);
         var pageableCaptor = org.mockito.ArgumentCaptor.forClass(Pageable.class);
-        verify(adminOrderService).searchOrders(filterCaptor.capture(), pageableCaptor.capture());
-        assertEquals(42L, filterCaptor.getValue().getId());
-        assertEquals(orderCode, filterCaptor.getValue().getOrderCode());
-        assertEquals(LocalDate.of(2026, 9, 23), filterCaptor.getValue().getDay());
-        assertEquals(OrderStatus.RECEIVED, filterCaptor.getValue().getStatus());
+        verify(adminOrderService).searchOrders(criteriaCaptor.capture(), pageableCaptor.capture());
+        assertEquals(42L, criteriaCaptor.getValue().getId());
+        assertEquals(orderCode, criteriaCaptor.getValue().getOrderCode());
+        assertEquals(LocalDate.of(2026, 9, 23), criteriaCaptor.getValue().getDay());
+        assertEquals(OrderStatus.RECEIVED, criteriaCaptor.getValue().getStatus());
         assertEquals(2, pageableCaptor.getValue().getPageNumber());
         assertEquals(10, pageableCaptor.getValue().getPageSize());
     }
@@ -99,7 +113,14 @@ class AdminOrderControllerTest {
                 .status(OrderStatus.COMPLETED)
                 .items(List.of())
                 .build();
-        when(adminOrderService.completeOrder(orderCode)).thenReturn(response);
+        OrderDetailModel model = OrderDetailModel.builder()
+                .id(7L)
+                .orderCode(orderCode)
+                .status(OrderStatus.COMPLETED)
+                .items(List.of())
+                .build();
+        when(adminOrderService.completeOrder(orderCode)).thenReturn(model);
+        when(adminOrderMapper.toDto(model)).thenReturn(response);
 
         mockMvc.perform(patch("/api/v1/admin/orders/{orderCode}/complete", orderCode))
                 .andExpect(status().isOk())

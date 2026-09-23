@@ -1,11 +1,7 @@
 package com.awesomepizza.administration.service;
 
-import com.awesomepizza.administration.dto.AdminOrderDetailDTO;
-import com.awesomepizza.administration.dto.AdminOrderSearchFilterDTO;
-import com.awesomepizza.administration.dto.AdminOrderSummaryDTO;
 import com.awesomepizza.administration.exception.ActiveOrderInPreparationException;
 import com.awesomepizza.administration.exception.InvalidOrderStateException;
-import com.awesomepizza.administration.mapper.AdminOrderMapper;
 import com.awesomepizza.shared.model.OrderDetailModel;
 import com.awesomepizza.administration.model.OrderSearchCriteria;
 import com.awesomepizza.shared.model.OrderSummaryModel;
@@ -47,36 +43,29 @@ class AdminOrderServiceTest {
     private OrderRepository orderRepository;
     @Mock
     private OrderMapper orderMapper;
-    @Mock
-    private AdminOrderMapper adminOrderMapper;
-
     private AdminOrderService service;
 
     @BeforeEach
     void setUp() {
         Clock clock = Clock.fixed(NOW, ZoneId.of("Europe/Rome"));
-        service = new AdminOrderService(orderRepository, orderMapper, adminOrderMapper, clock);
+        service = new AdminOrderService(orderRepository, orderMapper, clock);
     }
 
     @Test
     @SuppressWarnings("unchecked")
     void searchesOrdersWithACappedStablePage() {
-        AdminOrderSearchFilterDTO filter = new AdminOrderSearchFilterDTO();
         OrderSearchCriteria criteria = OrderSearchCriteria.builder()
                 .status(OrderStatus.RECEIVED)
                 .build();
         OrderDB entity = order(UUID.randomUUID(), OrderStatus.RECEIVED);
         OrderSummaryModel summary = OrderSummaryModel.builder().id(1L).build();
-        AdminOrderSummaryDTO dto = AdminOrderSummaryDTO.builder().id(1L).build();
-        when(adminOrderMapper.toCriteria(filter)).thenReturn(criteria);
         when(orderRepository.findAll(any(Specification.class), any(Pageable.class)))
                 .thenReturn(new PageImpl<>(List.of(entity)));
         when(orderMapper.toSummaryModel(entity)).thenReturn(summary);
-        when(adminOrderMapper.toDto(summary)).thenReturn(dto);
 
-        var result = service.searchOrders(filter, PageRequest.of(2, 500));
+        var result = service.searchOrders(criteria, PageRequest.of(2, 500));
 
-        assertEquals(List.of(dto), result.getContent());
+        assertEquals(List.of(summary), result.getContent());
         ArgumentCaptor<Pageable> pageableCaptor = ArgumentCaptor.forClass(Pageable.class);
         verify(orderRepository).findAll(any(Specification.class), pageableCaptor.capture());
         assertEquals(2, pageableCaptor.getValue().getPageNumber());
@@ -89,15 +78,13 @@ class AdminOrderServiceTest {
         UUID orderCode = UUID.randomUUID();
         OrderDB order = order(orderCode, OrderStatus.RECEIVED);
         OrderDetailModel model = OrderDetailModel.builder().orderCode(orderCode).build();
-        AdminOrderDetailDTO expected = AdminOrderDetailDTO.builder().orderCode(orderCode).build();
         when(orderRepository.findFirstByOrderByIdAsc()).thenReturn(Optional.of(order));
         when(orderRepository.findForUpdateByOrderCode(orderCode)).thenReturn(Optional.of(order));
         when(orderRepository.existsByStatus(OrderStatus.IN_PREPARATION)).thenReturn(false);
         when(orderRepository.saveAndFlush(order)).thenReturn(order);
         when(orderMapper.toDetailModel(order)).thenReturn(model);
-        when(adminOrderMapper.toDto(model)).thenReturn(expected);
 
-        assertSame(expected, service.startPreparation(orderCode));
+        assertSame(model, service.startPreparation(orderCode));
         assertEquals(OrderStatus.IN_PREPARATION, order.getStatus());
         assertEquals(NOW, order.getPreparationStarted());
     }
@@ -107,12 +94,10 @@ class AdminOrderServiceTest {
         UUID orderCode = UUID.randomUUID();
         OrderDB order = order(orderCode, OrderStatus.RECEIVED);
         OrderDetailModel model = OrderDetailModel.builder().orderCode(orderCode).build();
-        AdminOrderDetailDTO expected = AdminOrderDetailDTO.builder().orderCode(orderCode).build();
         when(orderRepository.findByOrderCode(orderCode)).thenReturn(Optional.of(order));
         when(orderMapper.toDetailModel(order)).thenReturn(model);
-        when(adminOrderMapper.toDto(model)).thenReturn(expected);
 
-        assertSame(expected, service.getOrder(orderCode));
+        assertSame(model, service.getOrder(orderCode));
     }
 
     @Test
@@ -151,13 +136,11 @@ class AdminOrderServiceTest {
         UUID orderCode = UUID.randomUUID();
         OrderDB order = order(orderCode, OrderStatus.IN_PREPARATION);
         OrderDetailModel model = OrderDetailModel.builder().orderCode(orderCode).build();
-        AdminOrderDetailDTO expected = AdminOrderDetailDTO.builder().orderCode(orderCode).build();
         when(orderRepository.findForUpdateByOrderCode(orderCode)).thenReturn(Optional.of(order));
         when(orderRepository.saveAndFlush(order)).thenReturn(order);
         when(orderMapper.toDetailModel(order)).thenReturn(model);
-        when(adminOrderMapper.toDto(model)).thenReturn(expected);
 
-        assertSame(expected, service.completeOrder(orderCode));
+        assertSame(model, service.completeOrder(orderCode));
         assertEquals(OrderStatus.COMPLETED, order.getStatus());
         assertEquals(NOW, order.getCompletedAt());
     }

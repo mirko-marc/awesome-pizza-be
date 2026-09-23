@@ -1,10 +1,5 @@
 package com.awesomepizza.administration.service;
 
-import com.awesomepizza.administration.dto.AdminOrderDetailDTO;
-import com.awesomepizza.administration.dto.AdminOrderSearchFilterDTO;
-import com.awesomepizza.administration.dto.AdminOrderSummaryDTO;
-import com.awesomepizza.administration.dto.PageResponseDTO;
-import com.awesomepizza.administration.mapper.AdminOrderMapper;
 import com.awesomepizza.shared.model.OrderDetailModel;
 import com.awesomepizza.administration.model.OrderSearchCriteria;
 import com.awesomepizza.shared.model.OrderSummaryModel;
@@ -37,43 +32,30 @@ public class AdminOrderService {
 
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
-    private final AdminOrderMapper adminOrderMapper;
     private final Clock clock;
 
     @Transactional(readOnly = true)
-    public PageResponseDTO<AdminOrderSummaryDTO> searchOrders(
-            AdminOrderSearchFilterDTO filter, Pageable pageable) {
-        OrderSearchCriteria criteria = adminOrderMapper.toCriteria(filter);
+    public Page<OrderSummaryModel> searchOrders(
+            OrderSearchCriteria criteria, Pageable pageable) {
         int pageSize = Math.min(pageable.getPageSize(), MAX_PAGE_SIZE);
         Pageable normalizedPage = PageRequest.of(
                 pageable.getPageNumber(),
                 pageSize,
                 Sort.by(Sort.Order.desc("createdAt"), Sort.Order.desc("id")));
-        Page<OrderSummaryModel> result = orderRepository
+        return orderRepository
                 .findAll(matching(criteria, clock.getZone()), normalizedPage)
                 .map(orderMapper::toSummaryModel);
-
-        return PageResponseDTO.<AdminOrderSummaryDTO>builder()
-                .content(result.getContent().stream().map(adminOrderMapper::toDto).toList())
-                .page(result.getNumber())
-                .size(result.getSize())
-                .totalElements(result.getTotalElements())
-                .totalPages(result.getTotalPages())
-                .first(result.isFirst())
-                .last(result.isLast())
-                .build();
     }
 
     @Transactional(readOnly = true)
-    public AdminOrderDetailDTO getOrder(UUID orderCode) {
-        OrderDetailModel order = orderRepository.findByOrderCode(orderCode)
+    public OrderDetailModel getOrder(UUID orderCode) {
+        return orderRepository.findByOrderCode(orderCode)
                 .map(orderMapper::toDetailModel)
                 .orElseThrow(() -> new OrderNotFoundException(orderCode));
-        return adminOrderMapper.toDto(order);
     }
 
     @Transactional
-    public AdminOrderDetailDTO startPreparation(UUID orderCode) {
+    public OrderDetailModel startPreparation(UUID orderCode) {
         acquirePreparationQueueLock(orderCode);
         OrderDB order = findForUpdate(orderCode);
         requireStatus(order, OrderStatus.RECEIVED);
@@ -86,11 +68,11 @@ public class AdminOrderService {
         order.setPreparationStarted(clock.instant());
         OrderDetailModel result = orderMapper.toDetailModel(orderRepository.saveAndFlush(order));
         log.info("Order {} entered preparation", orderCode);
-        return adminOrderMapper.toDto(result);
+        return result;
     }
 
     @Transactional
-    public AdminOrderDetailDTO completeOrder(UUID orderCode) {
+    public OrderDetailModel completeOrder(UUID orderCode) {
         OrderDB order = findForUpdate(orderCode);
         requireStatus(order, OrderStatus.IN_PREPARATION);
 
@@ -98,7 +80,7 @@ public class AdminOrderService {
         order.setCompletedAt(clock.instant());
         OrderDetailModel result = orderMapper.toDetailModel(orderRepository.saveAndFlush(order));
         log.info("Order {} was completed", orderCode);
-        return adminOrderMapper.toDto(result);
+        return result;
     }
 
     private void acquirePreparationQueueLock(UUID orderCode) {

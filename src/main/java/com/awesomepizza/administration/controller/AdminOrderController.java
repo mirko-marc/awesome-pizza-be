@@ -4,7 +4,11 @@ import com.awesomepizza.administration.dto.AdminOrderDetailDTO;
 import com.awesomepizza.administration.dto.AdminOrderSearchFilterDTO;
 import com.awesomepizza.administration.dto.AdminOrderSummaryDTO;
 import com.awesomepizza.administration.dto.PageResponseDTO;
+import com.awesomepizza.administration.mapper.AdminOrderMapper;
+import com.awesomepizza.administration.model.OrderSearchCriteria;
 import com.awesomepizza.administration.service.AdminOrderService;
+import com.awesomepizza.shared.model.OrderDetailModel;
+import com.awesomepizza.shared.model.OrderSummaryModel;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -14,6 +18,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +37,7 @@ import java.util.UUID;
 @SecurityRequirement(name = "bearerAuth")
 public class AdminOrderController {
     private final AdminOrderService adminOrderService;
+    private final AdminOrderMapper adminOrderMapper;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Search orders", description = "Returns a page of orders. All supplied filters are combined with AND")
@@ -43,7 +49,9 @@ public class AdminOrderController {
     public ResponseEntity<PageResponseDTO<AdminOrderSummaryDTO>> searchOrders(
             @ParameterObject AdminOrderSearchFilterDTO filter,
             @ParameterObject @PageableDefault(size = 20) Pageable pageable) {
-        PageResponseDTO<AdminOrderSummaryDTO> response = adminOrderService.searchOrders(filter, pageable);
+        OrderSearchCriteria criteria = adminOrderMapper.toCriteria(filter);
+        Page<OrderSummaryModel> orders = adminOrderService.searchOrders(criteria, pageable);
+        PageResponseDTO<AdminOrderSummaryDTO> response = toPageResponse(orders);
         return ResponseEntity.ok(response);
     }
 
@@ -56,7 +64,8 @@ public class AdminOrderController {
     public ResponseEntity<AdminOrderDetailDTO> getOrder(
             @Parameter(description = "Public order code", required = true)
             @PathVariable UUID orderCode) {
-        AdminOrderDetailDTO response = adminOrderService.getOrder(orderCode);
+        OrderDetailModel order = adminOrderService.getOrder(orderCode);
+        AdminOrderDetailDTO response = adminOrderMapper.toDto(order);
         return ResponseEntity.ok(response);
     }
 
@@ -70,7 +79,8 @@ public class AdminOrderController {
     public ResponseEntity<AdminOrderDetailDTO> startPreparation(
             @Parameter(description = "Public order code", required = true)
             @PathVariable UUID orderCode) {
-        AdminOrderDetailDTO response = adminOrderService.startPreparation(orderCode);
+        OrderDetailModel order = adminOrderService.startPreparation(orderCode);
+        AdminOrderDetailDTO response = adminOrderMapper.toDto(order);
         return ResponseEntity.ok(response);
     }
 
@@ -84,7 +94,20 @@ public class AdminOrderController {
     public ResponseEntity<AdminOrderDetailDTO> completeOrder(
             @Parameter(description = "Public order code", required = true)
             @PathVariable UUID orderCode) {
-        AdminOrderDetailDTO response = adminOrderService.completeOrder(orderCode);
+        OrderDetailModel order = adminOrderService.completeOrder(orderCode);
+        AdminOrderDetailDTO response = adminOrderMapper.toDto(order);
         return ResponseEntity.ok(response);
+    }
+
+    private PageResponseDTO<AdminOrderSummaryDTO> toPageResponse(Page<OrderSummaryModel> orders) {
+        return PageResponseDTO.<AdminOrderSummaryDTO>builder()
+                .content(orders.getContent().stream().map(adminOrderMapper::toDto).toList())
+                .page(orders.getNumber())
+                .size(orders.getSize())
+                .totalElements(orders.getTotalElements())
+                .totalPages(orders.getTotalPages())
+                .first(orders.isFirst())
+                .last(orders.isLast())
+                .build();
     }
 }
