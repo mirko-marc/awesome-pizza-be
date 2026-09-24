@@ -113,11 +113,12 @@ The backend is a Spring Modulith modular monolith. Each business module is organ
 
 ```text
 authentication --> shared
-customer ---------> shared
-administration ---> shared
+ordering ---------> shared
 ```
 
-Only four application modules are present: `administration`, `authentication`, `customer`, and `shared`. The `customer` module contains both catalog browsing and public order operations. Entities, repositories, persistence mappers, shared models, and order enumerations used across modules live in the shared kernel. API/DTO mappers remain inside their owning business module.
+Only three application modules are present: `ordering`, `authentication`, and `shared`. The `ordering` module owns public ordering, pizza menu queries, administration order operations, entities, repositories, models, and mappers. Its implementation is kept under `ordering.internal`; it does not expose an application API because no other module calls it. The `shared` module contains only cross-cutting configuration, auditing, common error DTOs, and generic exception support.
+
+`OrderService` owns order creation, lookup, administration search, preparation start, and completion. `PizzaService` owns pizza menu queries. Customer and administration controllers use the same application models and expose separate HTTP DTOs where their contracts differ.
 
 Module dependencies and exposed named interfaces are declared in each module's `package-info.java`. `ModularityTest` runs Spring Modulith verification and fails when code introduces a forbidden dependency, accesses a non-exposed package, creates a module cycle, or uses field injection.
 
@@ -125,6 +126,13 @@ Run tests with:
 
 ```powershell
 mvn test
+```
+
+The PostgreSQL concurrency test is opt-in and requires the migrated database on `localhost:5432` (or the `DB_*` environment variables):
+
+```powershell
+$env:RUN_POSTGRES_INTEGRATION_TESTS='true'
+mvn '-Dtest=OrderConcurrencyPostgresTest' test
 ```
 
 ## API

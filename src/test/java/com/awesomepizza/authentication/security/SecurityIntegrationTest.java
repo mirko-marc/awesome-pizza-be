@@ -1,7 +1,7 @@
 package com.awesomepizza.authentication.security;
 
 import com.awesomepizza.authentication.config.SecurityConfig;
-import com.awesomepizza.administration.controller.AdminController;
+import com.awesomepizza.ordering.internal.controller.administration.AdminController;
 import com.awesomepizza.authentication.controller.AuthController;
 import com.awesomepizza.authentication.mapper.AuthApiMapperImpl;
 import com.awesomepizza.authentication.model.AccessTokenModel;
