@@ -120,6 +120,8 @@ Only three application modules are present: `ordering`, `authentication`, and `s
 
 `OrderService` owns order creation, lookup, administration search, preparation start, and completion. `PizzaService` owns pizza menu queries. Customer and administration controllers use the same application models and expose separate HTTP DTOs where their contracts differ.
 
+Administrative real-time notifications are implemented as an internal output adapter of `ordering`. `OrderService` publishes internal events, and the WebSocket listener sends them only after the surrounding transaction commits. This keeps the project at three modules and keeps WebSocket/STOMP out of the application service.
+
 Module dependencies and exposed named interfaces are declared in each module's `package-info.java`. `ModularityTest` runs Spring Modulith verification and fails when code introduces a forbidden dependency, accesses a non-exposed package, creates a module cycle, or uses field injection.
 
 Run tests with:
@@ -148,6 +150,23 @@ mvn '-Dtest=OrderConcurrencyPostgresTest' test
 | `GET` | `/api/v1/admin/orders/{orderCode}` | Returns the complete order detail |
 | `PATCH` | `/api/v1/admin/orders/{orderCode}/start` | Starts preparation if no other order is active |
 | `PATCH` | `/api/v1/admin/orders/{orderCode}/complete` | Completes an order currently in preparation |
+
+
+## Administrative WebSocket notifications
+
+The STOMP endpoint is `/ws` and the protected administration topic is:
+
+```text
+/topic/admin/orders
+```
+
+The client must send the JWT returned by `/api/v1/auth/login` in the STOMP `CONNECT` headers:
+
+```text
+Authorization: Bearer <access-token>
+```
+
+Only users with `ROLE_PIZZA_MAKER` may subscribe. Notifications are sent after an order is created, enters preparation, or is completed. The message contains `orderCode`, `status`, `eventType`, and `occurredAt`. REST remains the source of truth: the administration client must reload the queue after connecting or reconnecting because WebSocket delivery is not persisted.
 
 
 Order states are `RECEIVED`, `IN_PREPARATION`, and `COMPLETED`. The public order code is an unpredictable UUID. API documentation is available at `/swagger-ui/index.html`, with the OpenAPI document at `/v3/api-docs`.

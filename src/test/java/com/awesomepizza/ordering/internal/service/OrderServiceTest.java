@@ -10,6 +10,7 @@ import com.awesomepizza.ordering.internal.model.CreateOrderItemModel;
 import com.awesomepizza.ordering.internal.model.CreateOrderModel;
 import com.awesomepizza.ordering.internal.model.OrderModel;
 import com.awesomepizza.ordering.internal.enumeration.OrderStatus;
+import com.awesomepizza.ordering.internal.event.OrderCreatedEvent;
 import com.awesomepizza.ordering.internal.repository.OrderRepository;
 import com.awesomepizza.ordering.internal.repository.PizzaRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +19,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -41,12 +43,15 @@ class OrderServiceTest {
     private PizzaRepository pizzaRepository;
     @Mock
     private OrderMapper orderMapper;
+    @Mock
+    private ApplicationEventPublisher eventPublisher;
 
     private OrderService service;
 
     @BeforeEach
     void setUp() {
-        service = new OrderService(orderRepository, pizzaRepository, orderMapper, java.time.Clock.systemUTC());
+        service = new OrderService(orderRepository, pizzaRepository, orderMapper,
+                java.time.Clock.systemUTC(), eventPublisher);
     }
 
     @Test
@@ -72,6 +77,9 @@ class OrderServiceTest {
         assertEquals(2, savedOrder.getItems().getFirst().getQuantity());
         assertEquals(new BigDecimal("8.50"), savedOrder.getItems().getFirst().getUnitPrice());
         assertSame(savedOrder, savedOrder.getItems().getFirst().getOrder());
+        ArgumentCaptor<OrderCreatedEvent> eventCaptor = ArgumentCaptor.forClass(OrderCreatedEvent.class);
+        verify(eventPublisher).publishEvent(eventCaptor.capture());
+        assertEquals(savedOrder.getOrderCode(), eventCaptor.getValue().orderCode());
     }
 
     @Test

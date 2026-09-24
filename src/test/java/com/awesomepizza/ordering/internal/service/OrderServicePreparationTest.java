@@ -20,6 +20,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.context.ApplicationEventPublisher;
 
 import java.time.Clock;
 import java.time.Instant;
@@ -45,12 +46,15 @@ class OrderServicePreparationTest {
     private OrderMapper orderMapper;
     @Mock
     private com.awesomepizza.ordering.internal.repository.PizzaRepository pizzaRepository;
+    @Mock
+    private ApplicationEventPublisher eventPublisher;
     private OrderService service;
 
     @BeforeEach
     void setUp() {
         Clock clock = Clock.fixed(NOW, ZoneId.of("Europe/Rome"));
-        service = new OrderService(orderRepository, pizzaRepository, orderMapper, clock);
+        service = new OrderService(
+                orderRepository, pizzaRepository, orderMapper, clock, eventPublisher);
     }
 
     @Test

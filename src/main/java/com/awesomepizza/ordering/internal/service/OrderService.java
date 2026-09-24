@@ -4,6 +4,7 @@ import com.awesomepizza.ordering.internal.entity.OrderDB;
 import com.awesomepizza.ordering.internal.entity.OrderItemDB;
 import com.awesomepizza.ordering.internal.entity.PizzaDB;
 import com.awesomepizza.ordering.internal.enumeration.OrderStatus;
+import com.awesomepizza.ordering.internal.event.OrderCreatedEvent;
 import com.awesomepizza.ordering.internal.exception.ActiveOrderInPreparationException;
 import com.awesomepizza.ordering.internal.exception.InvalidOrderException;
 import com.awesomepizza.ordering.internal.exception.InvalidOrderStateException;
@@ -23,6 +24,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +39,8 @@ import java.util.stream.Collectors;
 
 import static com.awesomepizza.ordering.internal.specification.OrderSpecifications.matching;
 
+import java.time.Instant;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -47,6 +51,7 @@ public class OrderService {
     private final PizzaRepository pizzaRepository;
     private final OrderMapper orderMapper;
     private final Clock clock;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
     public OrderModel createOrder(CreateOrderModel request) {
@@ -78,7 +83,10 @@ public class OrderService {
             item.setUnitPrice(pizza.getPrice());
             order.addItem(item);
         });
-        return orderMapper.toModel(orderRepository.saveAndFlush(order));
+        OrderDB savedOrder = orderRepository.saveAndFlush(order);
+        OrderModel result = orderMapper.toModel(savedOrder);
+        eventPublisher.publishEvent(new OrderCreatedEvent(savedOrder.getOrderCode(), clock.instant()));
+        return result;
     }
 
     @Transactional(readOnly = true)
@@ -105,8 +113,9 @@ public class OrderService {
         if (orderRepository.existsByStatus(OrderStatus.IN_PREPARATION)) {
             throw new ActiveOrderInPreparationException();
         }
+        Instant occurredAt = clock.instant();
         order.setStatus(OrderStatus.IN_PREPARATION);
-        order.setPreparationStarted(clock.instant());
+        order.setPreparationStarted(occurredAt);
         OrderModel result = orderMapper.toModel(orderRepository.saveAndFlush(order));
         log.info("Order {} entered preparation", orderCode);
         return result;
@@ -116,8 +125,9 @@ public class OrderService {
     public OrderModel completeOrder(UUID orderCode) {
         OrderDB order = findForUpdate(orderCode);
         requireStatus(order, OrderStatus.IN_PREPARATION);
+        Instant occurredAt = clock.instant();
         order.setStatus(OrderStatus.COMPLETED);
-        order.setCompletedAt(clock.instant());
+        order.setCompletedAt(occurredAt);
         OrderModel result = orderMapper.toModel(orderRepository.saveAndFlush(order));
         log.info("Order {} was completed", orderCode);
         return result;
